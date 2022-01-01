@@ -12,21 +12,11 @@ class MapObjectUpdates<T extends MapObject> extends Equatable {
     final previousObjectIds = previousObjects.keys.toSet();
     final currentObjectIds = currentObjects.keys.toSet();
 
-    _objectsToRemove = previousObjectIds
-      .difference(currentObjectIds)
-      .map((MapObjectId id) => previousObjects[id]!).
-      toSet();
+    _objectsToRemove = Set.from(previousObjects.values);
 
-    _objectsToAdd = currentObjectIds
-      .difference(previousObjectIds)
-      .map((MapObjectId id) => currentObjects[id]!)
-      .toSet();
+    _objectsToAdd = Set.from(currentObjects.values);
 
-    _objectsToChange = currentObjectIds
-      .intersection(previousObjectIds)
-      .map((MapObjectId id) => currentObjects[id]!)
-      .where((T current) => current != previousObjects[current.mapId])
-      .toSet();
+    _objectsToChange = {};
   }
 
   /// Set of objects to be added in this update.
